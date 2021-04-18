@@ -5,6 +5,7 @@ var score = {
     losses: 0
 }
 var timer, timerCount = 10;
+var word, letters, numLetters;
 var wonGame = false;
 var startButton = document.querySelector("#start");
 var resetButton = document.querySelector("#reset");
@@ -19,6 +20,34 @@ var blanks = [];
 // event listeners
 startButton.addEventListener("click", startGame);
 reset.addEventListener("click", resetGame);
+document.addEventListener("keydown", function(event) {
+    // alpha numeric characters
+    var chars = "abcdefghijklmnopqrstuvwxyz0123456789 ".split("");
+    var key, letter, found = false;
+
+    // If the count is zero, exit function
+    if (timerCount === 0) {
+      return;
+    }
+    // Convert all keys to lower case
+    key = event.key.toLowerCase();
+    if (chars.includes(key)) {
+      letter = event.key;
+      for (i = 0; i < numLetters; i++) {
+          if (word[i] == letter) {
+              blanks[i] = letter;
+              found = true;
+          }
+      }
+      if (found) {
+          gbInputDiv.textContent = blanks.join("");
+      }
+      if (word === blanks.join("")) {
+          wonGame = true;
+      }
+    }
+});
+
 
 // functions
 function displayScore() {
@@ -63,8 +92,18 @@ function showBlanks() {
 }
 
 // win 
-function gameWon() {
-    
+function gameStatus(status) {
+    if (status == 'win') {
+        gbInputDiv.textContent = "Hurray!!!🏆 ";
+        score.wins++;
+    }
+    else {
+        gbInputDiv.textContent = "Game Over 😭 ";
+        score.losses++;        
+    }
+    startButton.disabled = false;
+    localStorage.setItem("score", score);
+    displayScore();
 }
 
 // start the timer
@@ -77,12 +116,12 @@ function startTimer() {
         // win?
         if (wonGame && timerCount > 0) {
           clearInterval(timer);
-          gameWon();
+          gameStatus('win');
         }
         // time has run out
         if (timerCount === 0) {
             clearInterval(timer);
-            gameLost();
+            gameStatus('lost');
         }
       }
     }, 1000);
