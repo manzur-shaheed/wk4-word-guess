@@ -17,7 +17,7 @@ body {
 header {
     padding: 20px;
     text-align: center;
-    background: #13293d;
+    background: #252528;
     color: #fff;
     border-bottom:30px #879274;
     width: 100%;
@@ -71,7 +71,7 @@ main {
 }
 
 /* user input */
-.gb-input {
+#gb-input {
     text-align: center;
     line-height: 300px;
     font-size: 3rem;
