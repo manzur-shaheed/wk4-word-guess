@@ -61,7 +61,7 @@ function displayScore() {
         score.losses = 0;
     }
     winDiv.innerHTML = "Wins: " + score.wins;
-    lossDiv.innerHTML = "Losses: " + score.wins;
+    lossDiv.innerHTML = "Losses: " + score.losses;
     timerDiv.textContent = timerCount;
 }
 
@@ -71,8 +71,8 @@ function resetGame() {
     score.wins = 0;
     score.losses = 0;
     timerCount = 10;
-    score = JSON.stringify(score);
-    localStorage.setItem("score", score);
+    gbInputDiv.textContent = 'J _ v _ S c r_ _t';
+    localStorage.setItem("score", JSON.stringify(score));
     displayScore();
 }
 
@@ -102,7 +102,8 @@ function gameStatus(status) {
         score.losses++;        
     }
     startButton.disabled = false;
-    localStorage.setItem("score", score);
+    console.log(score);
+    localStorage.setItem("score", JSON.stringify(score));
     displayScore();
 }
 
